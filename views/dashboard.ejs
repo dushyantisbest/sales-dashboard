@@ -6,8 +6,15 @@
     <title>Sales Dashboard</title>
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="icon fas fa-sun" id="themeIcon"></i>
+        <span id="themeText">Light Mode</span>
+    </button>
+
     <div class="container">
         <header>
             <h1>Sales & Vendor Analysis Dashboard</h1>
@@ -233,10 +240,40 @@
                     }
                 });
             }
-        } catch (error) {
-            console.error('Error creating Vendors by Area chart:', error);
-            document.getElementById('vendorsByAreaChart').innerHTML = '<p style="text-align: center; color: #666;">Chart data not available</p>';
-        }
-    </script>
+                 } catch (error) {
+             console.error('Error creating Vendors by Area chart:', error);
+             document.getElementById('vendorsByAreaChart').innerHTML = '<p style="text-align: center; color: #666;">Chart data not available</p>';
+         }
+
+         // Dark Mode Toggle Functionality
+         const themeToggle = document.getElementById('themeToggle');
+         const themeIcon = document.getElementById('themeIcon');
+         const themeText = document.getElementById('themeText');
+         const body = document.body;
+
+         // Check for saved theme preference or default to light mode
+         const currentTheme = localStorage.getItem('theme') || 'light';
+         body.setAttribute('data-theme', currentTheme);
+         updateThemeUI(currentTheme);
+
+         themeToggle.addEventListener('click', () => {
+             const currentTheme = body.getAttribute('data-theme');
+             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+             body.setAttribute('data-theme', newTheme);
+             localStorage.setItem('theme', newTheme);
+             updateThemeUI(newTheme);
+         });
+
+         function updateThemeUI(theme) {
+             if (theme === 'dark') {
+                 themeIcon.className = 'icon fas fa-moon';
+                 themeText.textContent = 'Dark Mode';
+             } else {
+                 themeIcon.className = 'icon fas fa-sun';
+                 themeText.textContent = 'Light Mode';
+             }
+         }
+     </script>
 </body>
 </html>
